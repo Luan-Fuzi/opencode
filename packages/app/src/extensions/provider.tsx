@@ -27,6 +27,7 @@ import { persisted, Persist } from "@/runtime/persistence/storage"
 import { extensionTabKey } from "./keys"
 import { showToast } from "@/shell/notifications/toast"
 import { ReviewDesktop } from "@opencode/plugin-review-desktop"
+import { ContextDesktop } from "@opencode/plugin-context-desktop"
 import type { SessionServices } from "@opencode/plugin/desktop/workspace"
 
 export type Contribution = Claim<{ context: Context; when?: () => boolean; render: SlotClaim["render"] }>
@@ -304,7 +305,7 @@ function createHost() {
     })
 
   createEffect(() => {
-    const definitions = [ReviewDesktop, ...(platform.extensionPlugins ?? [])]
+    const definitions = [ReviewDesktop, ContextDesktop, ...(platform.extensionPlugins ?? [])]
     Array.from(instances).forEach(([id, instance]) => {
       if (definitions.find((definition) => definition.id === id) === instance.definition) return
       instance.dispose()
